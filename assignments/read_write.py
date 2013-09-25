@@ -43,7 +43,9 @@ def read_dict_file(path, file_name):
             'objective_coefficients': objective_coefficients
             }
 
-def write_out_answers(out_path, input_file, entering_variable, leaving_variable, objective_value):
+def write_out_answers_part1(
+        out_path, input_file, 
+        entering_variable, leaving_variable, objective_value):
     logging.info("Writing answers to: {0}".format(join(out_path, input_file)))
     f = open(join(out_path, input_file), 'w')
     if objective_value == 'UNBOUNDED':
