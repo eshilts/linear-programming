@@ -1,6 +1,7 @@
 import logging
 from os.path import join
 import numpy as np
+import pandas as pd
 logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
 
 def read_and_split_line(f, floats=True):
@@ -8,8 +9,9 @@ def read_and_split_line(f, floats=True):
         float(x) if floats else int(x) 
         for x in f.readline().split()])
 
-def construct_A(m, f, floats=True):
-    return np.array([read_and_split_line(f, floats) for i in range(m)])
+def construct_A(m, f, basic_vars, decision_vars, floats=True):
+    return pd.DataFrame([read_and_split_line(f, floats) for i in range(m)],
+            index=basic_vars, columns = decision_vars)
 
 def read_dict_file(path, file_name):
     f = open(join(path, file_name), 'r')
@@ -20,25 +22,24 @@ def read_dict_file(path, file_name):
     decision_var = read_and_split_line(f, False)
     logging.info('decision variables: {0}'.format(decision_var))
     b = read_and_split_line(f)
-    logging.info('basic coefficients: {0}'.format(b))
-    
-    A = construct_A(m, f)
-    logging.info('A ({1}x{2})=\n{0}'.format(A, m, n))
+    logging.info('basic coefficients (b): {0}'.format(b))
 
-    objectives = read_and_split_line(f)
-    z = objectives[0]
-    logging.info('objectives = {0}'.format(objectives))
+    A = construct_A(m, f, basic_var, decision_var)
+    A.insert(0, 'b', b)
+    logging.info('A ({1}x{2} + b)=\n{0}'.format(A, m, n))
+
+    z = pd.Series(read_and_split_line(f), index=['b'] + list(decision_var))
+    logging.info('z (objectives) =\n{0}'.format(z))
 
     f.close()
 
     return {
             'm_n': (m, n), 
-            'basic_var': basic_var,
-            'decision_var': decision_var,
+            'basic_vars': basic_var,
+            'decision_vars': decision_var,
             'b': b,
             'A': A,
-            'z': z,
-            'objectives': objectives
+            'z': z
             }
 
 def write_out_answers_part1(
