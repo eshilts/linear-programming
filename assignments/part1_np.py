@@ -9,9 +9,9 @@ def run_part1(path, file_name):
         "objective = {3} ---\n").format(
             file_name, pivot_data['enter_var'], 
             pivot_data['leave_var'], pivot_data['objective']))
-    #write_out_answers_part1('part1TestCases/answers', 
-    #        file_name, pivot_data['enter_var'], 
-    #        pivot_data['leave_var'], pivot_data['objective'])
+    write_out_answers_part1('part1TestCases/answers', 
+            file_name, pivot_data['enter_var'], 
+            pivot_data['leave_var'], pivot_data['objective'])
 
 logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
 
@@ -19,6 +19,6 @@ logging.info("Unit tests")
 for i in range(1, 11):
     run_part1('part1TestCases/unitTests', 'dict' + str(i))
 
-#logging.info("Assignment parts for grading")
-#for i in range(1, 6):
-#    run_part1('part1TestCases/assignmentParts', 'part{0}.dict'.format(i))
+logging.info("Assignment parts for grading")
+for i in range(1, 6):
+    run_part1('part1TestCases/assignmentParts', 'part{0}.dict'.format(i))

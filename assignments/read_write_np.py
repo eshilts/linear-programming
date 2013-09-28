@@ -47,8 +47,8 @@ def write_out_answers_part1(
         entering_variable, leaving_variable, objective_value):
     logging.info("Writing answers to: {0}".format(join(out_path, input_file)))
     f = open(join(out_path, input_file), 'w')
-    if objective_value == 'UNBOUNDED':
-        f.write(objective_value)
+    if leaving_variable is None:
+        f.write('UNBOUNDED')
     else:
         f.writelines([str(l) + '\n' 
             for l in [entering_variable, leaving_variable, objective_value]])
