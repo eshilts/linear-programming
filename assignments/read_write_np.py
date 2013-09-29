@@ -42,6 +42,7 @@ def read_dict_file(path, file_name):
             'z': z
             }
 
+
 def write_out_answers_part1(
         out_path, input_file, 
         entering_variable, leaving_variable, objective_value):
@@ -52,4 +53,17 @@ def write_out_answers_part1(
     else:
         f.writelines([str(l) + '\n' 
             for l in [entering_variable, leaving_variable, objective_value]])
+    f.close()
+
+
+def write_out_answers_part2(
+        out_path, input_file, 
+        steps, A, z, unbounded):
+    logging.info("Writing answers to: {0}".format(join(out_path, input_file)))
+    f = open(join(out_path, input_file), 'w')
+    if unbounded:
+        f.write('UNBOUNDED')
+    else:
+        f.writelines([str(l) + '\n' 
+            for l in [z['b'], steps]])
     f.close()
